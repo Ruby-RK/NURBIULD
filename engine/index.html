@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+   Sweet Home 3D Engine for NUR Technologies
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="minimal-ui, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<title>NUR Engine 3D</title>
+<script type="text/javascript" src="lib/big.min.js"></script>
+<script type="text/javascript" src="lib/gl-matrix-min.js"></script>
+<script type="text/javascript" src="lib/jszip.min.js"></script>
+<script type="text/javascript" src="lib/jsXmlSaxParser.min.js"></script>
+<script type="text/javascript" src="lib/core.min.js"></script>
+<script type="text/javascript" src="lib/geom.min.js"></script>
+<script type="text/javascript" src="lib/stroke.min.js"></script>
+<script type="text/javascript" src="lib/swingundo.min.js"></script>
+<script type="text/javascript" src="lib/batik-svgpathparser.min.js"></script>
+<script type="text/javascript" src="lib/triangulator.min.js"></script>
+<script type="text/javascript" src="lib/graphics2d.min.js"></script>
+<script type="text/javascript" src="lib/recorderworker.min.js" id="recorder-worker"></script>
+<script type="text/javascript" src="lib/sweethome3d.min.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/sweethome3djs.css">
+<style type="text/css">
+
+html, body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body {
+  position: relative;
+  margin: 0px;
+  height: 100%;
+  -ms-user-select: none;        
+  user-select: none;     
+  touch-action: none;
+}
+
+/* ГЛУХОЙ ФИКС: Гасим всплывающее окно 'О программе Sweet Home 3D' */
+.dialog-template, #home-pane > div[style*="z-index"], div[class*="about-dialog"] {
+  display: none !important;
+}
+
+#home-plan::selection { background: #ffb703; }
+
+#application-menu-toolbar, #home-pane-toolbar, 
+#catalog-furniture-pane, #furniture-catalog, #catalog-furniture-splitter, #furniture-view, 
+#furniture-plan-splitter, #plan-3D-view-pane, #home-plan, #plan-3D-view-splitter, #home-3D-view {
+  position: absolute;
+}
+
+#application-menu-toolbar { display: none; }
+
+#home-pane-toolbar {
+  top: 0;
+  height: 30px;
+  white-space: nowrap;
+}
+
+#catalog-furniture-pane {
+  top: 30px;
+  left: 0;
+  width: 296px;
+  height: calc(100% - 30px);
+  overflow: hidden;
+}
+
+#furniture-catalog {
+  height: 70%;
+  width: 100%;
+  overflow-y: hidden;
+}
+
+#furniture-catalog-list {
+  height: calc(100% - 3.3em);
+  width: 100%;
+  overflow-y: scroll;
+}
+
+#catalog-furniture-splitter {
+  top: 70%;
+  left: 0;
+  width: 100%;
+}
+
+#furniture-view {
+  top: calc(70% + 4px);
+  width: 100%;
+  height: calc(30% - 4px);
+  box-sizing: border-box; 
+}
+
+#furniture-view .tree-table {
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+#furniture-plan-splitter {
+  top: 30px;
+  left: 296px;
+  height: calc(100% - 30px);
+}
+
+#plan-3D-view-pane {
+  top: 30px;
+  left: 300px;
+  width: calc(100% - 300px);
+  height: calc(100% - 30px);
+}
+
+#home-plan {
+  width: 100%;
+  height: calc(50% - 2px);
+  font-family: sans-serif;
+  border-top: 1px solid gray; 
+  border-bottom: 1px solid gray; 
+}
+
+#plan-3D-view-splitter {
+  top: calc(50% - 2px);
+  left: 0;
+  width: 100%;
+}
+
+#home-3D-view {
+  top: calc(50% + 2px);
+  width: 100%;
+  height: calc(50% - 2px);
+  border-bottom: 1px solid gray; 
+}
+
+#home-plan:focus, #home-3D-view:focus { outline: none; }
+</style>
+</head>
+<body>
+
+<div id="home-pane">
+  <div id="application-menu-toolbar" class="toolbar"></div>
+  <div id="home-pane-toolbar" class="toolbar new-home open save save-as"></div>
+
+  <div id="catalog-furniture-pane">
+    <div id="furniture-catalog" tabindex="-1"><div id="furniture-catalog-list" class="furniture-catalog-list"></div></div>
+    <div id="catalog-furniture-splitter" class="pane-splitter"></div>
+    <div id="furniture-view" tabindex="-1"></div>
+  </div>
+  
+  <div id="furniture-plan-splitter" class="pane-splitter"></div>
+  
+  <div id="plan-3D-view-pane">
+    <div id="home-plan" style="background-color: #FFFFFF; color: #000000;" tabindex="1"><select id="level-selector"></select></div>
+    <div id="plan-3D-view-splitter" class="pane-splitter"></div>
+    <canvas id="home-3D-view" style="background-color: #CCCCCC;" tabindex="2"></canvas>
+  </div>
+</div>
+
+</body>
+</html>
